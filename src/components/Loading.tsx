@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 const BackGroundLoading = styled.div`
+    margin-top: 50px;
     position: absolute;
     z-index: 99999;
     width: 100%;

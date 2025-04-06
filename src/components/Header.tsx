@@ -6,11 +6,11 @@ const MainHeader = styled.header`
     top: 0;
     left: 0;
     width: 100%;
+    height: 90px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 50px;
-    background-color: rgba(20, 20, 20, 0.9);
+    background-color: rgba(20, 20, 20, 1);
     z-index: 100;
     transition: background-color 0.3s ease;
 `;

@@ -9,9 +9,11 @@ const PaginationContainer = styled.div`
 `
 
 const Page = styled.span<{ active?: boolean }>`
-    font-size: ${({ active }) => (active ? "1rem" : "0.5rem")};
-    padding: .05rem;
-    cursor: pointer;
+    background-color: ${({ active }) => active ? '#aaa' : '#4d4d4d'};
+    display: inline-block;
+    height: 2px;
+    margin-left: 1px;
+    width: 12px;
 
     &:hover {
         font-size: ${({ active }) => (active ? "1rem" : "0.7rem")};
@@ -56,50 +58,19 @@ const PageInput = styled.div`
     }
 `
 
-const Pagination = ({total, size, limit, page, setPage} : { total: number, size: number, limit: number, page: number, setPage: (page: number) => void }) => {
-    
-
-    const [pageInput, setPageInput] = useState('');
-    
+const Pagination = ({total, size, page} : { total: number, size: number, page: number }) => {
     if (!total) {
         return <></>;
     }
 
     const totalPages = Math.ceil(total / size);
-    const currentGroup = Math.ceil(page / limit);
-    const startPage = (currentGroup - 1) * limit + 1;
-    const endPage = Math.min(startPage + limit - 1, totalPages);
-
-    const hasPrevGroup = currentGroup > 1;
-    const hasNextGroup = currentGroup * limit < totalPages;
-
-    const handleInputChange = (e: { target: { value: string; }; }) => {
-        const input = e.target.value;
-        setPageInput(input);
-    };
 
     return <>
-        <PageInput>
-            <span>GO TO </span>
-            <input onChange={handleInputChange}></input>
-            <Link to={`/?page=${pageInput}`}>Page</Link>
-            <span>(total: {totalPages})</span>
-        </PageInput>
         <PaginationContainer>
             {
-                hasPrevGroup ? <Page onClick={() => setPage(currentGroup * limit - limit)}>
-                prev
-            </Page> : ''
-            }
-            {
-                Array.from({ length: endPage - startPage + 1}, (_, i) => startPage + i).map((p) => (
-                    <Page key={p} active={page === p} onClick={() => setPage(p)}>{p}</Page>
+                Array.from({ length: totalPages}, (_, i) => i++).map((p) => (
+                    <Page key={p} active={page - 1 === p}></Page>
                 ))
-            }
-            {
-                hasNextGroup ? <Page onClick={() => setPage(currentGroup * limit + 1)}>
-                Next
-            </Page> : ''
             }
 
         </PaginationContainer>

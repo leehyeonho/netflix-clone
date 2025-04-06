@@ -64,8 +64,7 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    background: linear-gradient(to bottom, #100a0c, #341f29);
-    /* background: linear-gradient(to bottom, rgba(16, 10, 12, 0.49) 10%, #14141434 15%, #ffc0cb7d 20%, #ffc0cbcc 35%, #ffc0cb7d 40%, #ffc0cb34 50%, #ffc0cb7d); */
+    background: rgb(0,0,0);
     color: #fff;
     overflow-x: hidden; /* 가로 스크롤바 숨김 (row 내부 제외) */
   }
