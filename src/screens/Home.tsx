@@ -90,7 +90,8 @@ const CategorizeContainer = styled.div`
 
 const CategorizeList = styled(motion.div)`
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    width: 100%;
 `;
 
 const CategorizeListControl = styled(motion.div)< { bg: string } >`
@@ -100,6 +101,11 @@ const CategorizeListControl = styled(motion.div)< { bg: string } >`
     background-size: auto;
     cursor: pointer;
     background-image: url(${ props => props.bg });
+`
+
+const MovieCardList = styled.div`
+    width: 92%;
+    display: flex;
 `
 
 const MovieCard = styled.div<{ bg?: string }>`
@@ -445,13 +451,13 @@ function Home(){
                                         />
                                     )
                                 }
-                                {
-                                    popularPart.map((movie, index) => (
-                                        <MovieCard key={index} bg={makeImagePath(movie.backdrop_path)}>
-                                            
-                                        </MovieCard>
-                                    ))
-                                }
+                                <MovieCardList>
+                                    {
+                                        popularPart.map((movie, index) => (
+                                            <MovieCard key={index} bg={makeImagePath(movie.backdrop_path)} />
+                                        ))
+                                    }
+                                </MovieCardList>
                                 {
                                     popularPage < Math.ceil(popular.results.length / showCardCnt) ? (
                                         <CategorizeListControl
@@ -506,13 +512,13 @@ function Home(){
                                                 />
                                             )
                                         }
-                                        {
-                                            comingPart.map((movie, index) => (
-                                                <MovieCard key={index} bg={makeImagePath(movie.backdrop_path)}>
-                                                    
-                                                </MovieCard>
-                                            ))
-                                        }
+                                        <MovieCardList>
+                                            {
+                                                comingPart.map((movie, index) => (
+                                                    <MovieCard key={index} bg={makeImagePath(movie.backdrop_path)} />
+                                                ))
+                                            }
+                                        </MovieCardList>
                                         {
                                             comingPage < Math.ceil(coming.results.length / showCardCnt) ? (
                                                 <CategorizeListControl
@@ -569,13 +575,13 @@ function Home(){
                                                 />
                                             )
                                         }
-                                        {
-                                            nowPart.map((movie, index) => (
-                                                <MovieCard key={index} bg={makeImagePath(movie.backdrop_path)}>
-                                                    
-                                                </MovieCard>
-                                            ))
-                                        }
+                                        <MovieCardList>
+                                            {
+                                                nowPart.map((movie, index) => (
+                                                    <MovieCard key={index} bg={makeImagePath(movie.backdrop_path)} />
+                                                ))
+                                            }
+                                        </MovieCardList>
                                         {
                                             nowPage < Math.ceil(now.results.length / showCardCnt) ? (
                                                 <CategorizeListControl
