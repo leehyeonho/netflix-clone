@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useSearchParams, useMatch } from "react-router-dom";
 import styled, { css } from "styled-components";
 import Pagination from "../components/Pagination";
 import { useQuery } from "@tanstack/react-query";
@@ -16,6 +16,7 @@ const Container = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
+    position: relative;
 `
 
 const TodayMovieContainer = styled.div<{ bg?: string }>`
@@ -132,6 +133,36 @@ const CategorizeInfo = styled.div`
 const CategorizeTitle = styled.div`
     font-size: 18px;
 `;
+
+const MovieModalContainer = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+`;
+
+const MovieDialog = styled(motion.div)`
+    position: absolute;
+    top: 2rem;
+    left: auto;
+    width: 700px;
+    min-height: 1000px;
+    z-index: 999;
+    background-color: #2e2e2e;
+    border-radius: .5rem;
+`;
+
+const MoviePoster = styled.div`
+`;
+
+const MovieDetail = styled.div`
+    
+`
 
 
 const Title = styled.h1`
@@ -266,6 +297,7 @@ function Home(){
     const { isLoading: isComingLoading, data: coming } = useQuery<Movies>(["coming"], getComingSoon);
     const { isLoading: isNowLoading, data: now } = useQuery<Movies>(["now"], getNowPlaying);
     const [showCardCnt, setShowCardCnt] = useState(1);
+    const moviePathMatch = useMatch("/movies/:id");
 
     const { hash, pathname } = useLocation();
     const navigate = useNavigate();
@@ -394,6 +426,10 @@ function Home(){
 
         setNowPart(now.results.slice((nowPage - 1) * showCardCnt, nowPage * showCardCnt))
     }, [nowPage])
+
+    useEffect(() => {
+        console.log(moviePathMatch);
+    }, [moviePathMatch]);
     
     return <>
         {
@@ -578,7 +614,9 @@ function Home(){
                                         <MovieCardList>
                                             {
                                                 nowPart.map((movie, index) => (
-                                                    <MovieCard key={index} bg={makeImagePath(movie.backdrop_path)} />
+                                                    <Link to={`movies/${movie.id}`} key={index}>
+                                                        <MovieCard bg={makeImagePath(movie.backdrop_path)} />
+                                                    </Link>
                                                 ))
                                             }
                                         </MovieCardList>
@@ -608,6 +646,18 @@ function Home(){
                             ) : ''
                         }
                     </MoviesContainer>
+                    {
+                        moviePathMatch ? (
+                            <MovieModalContainer>
+                                <MovieDialog>
+                                    <MoviePoster></MoviePoster>
+                                    <MovieDetail>
+                                        123
+                                    </MovieDetail>
+                                </MovieDialog>
+                            </MovieModalContainer>
+                        ) : ''
+                    }
                 </Container>
             ) : <Loading />
         }
