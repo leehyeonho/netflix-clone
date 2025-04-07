@@ -3,11 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@heroicons/react": "^2.2.0",
     "@tanstack/react-query": "4.28.0",
     "@types/styled-components": "5.1.26",
     "framer-motion": "10.9.1",
-    "heroicons": "^2.2.0",
     "loader-utils": "3.2.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",

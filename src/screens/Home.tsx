@@ -6,10 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getComingSoon, getNowPlaying, getPopular, makeBgPath, makeImagePath } from "../api/api";
 import Loading from "../components/Loading";
 import { HTMLMotionProps, motion } from "framer-motion";
-
-const Loader = styled.div`
-    text-align: center;
-`
+import MovieModal from "./Movie";
 
 const Container = styled.div`
     margin-top: 90px;
@@ -132,140 +129,6 @@ const CategorizeInfo = styled.div`
 
 const CategorizeTitle = styled.div`
     font-size: 18px;
-`;
-
-const MovieModalContainer = styled.div`
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 999;
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.7);
-`;
-
-const MovieDialog = styled(motion.div)`
-    position: absolute;
-    top: 2rem;
-    left: auto;
-    width: 700px;
-    min-height: 1000px;
-    z-index: 999;
-    background-color: #2e2e2e;
-    border-radius: .5rem;
-`;
-
-const MoviePoster = styled.div`
-`;
-
-const MovieDetail = styled.div`
-    
-`
-
-
-const Title = styled.h1`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 1.2rem;
-    line-height: 1.2rem;
-    padding-bottom: 0.5rem;
-`
-
-const TitleChar = styled.span<{ index: number }>`
-    position: relative;
-    margin: 0.25rem 0;
-    display: inline-block;
-    animation: bounce 2.0s ease infinite alternate;
-    font-size: 1rem;
-    color: #FFF;
-    text-shadow: 0 1px 0 #CCC,
-                0 2px 0 #CCC,
-                0 3px 0 #CCC,
-                0 4px 0 #CCC,
-                0 5px 0 #CCC,
-                0 6px 0 transparent,
-                0 7px 0 transparent,
-                0 8px 0 transparent,
-                0 9px 0 transparent,
-                0 10px 10px rgba(0, 0, 0, .4);
-
-    ${({ index }) => css`
-        animation-delay: ${0.05 * index}s;
-    `}
-
-    @keyframes bounce {
-    0% {
-
-    }
-    90% {
-        top: 0px;
-    }
-    100% {
-        top: -10px;
-    }
-    }
-`;
-
-const GridContainer = styled.div`
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 0.5rem 0.02rem;
-    max-width: 1200px;
-    margin: auto;
-    position: relative;
-    min-width: 200px;
-    min-height: 4rem;
-`;
-
-const GridItem = styled.div<{index: number}>`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0.3rem;
-    border-radius: 12.5%;
-    animation: fadeIn 0.7s ease forwards normal;
-    opacity: 0;
-
-    ${({ index }) => css`
-        animation-delay: ${0.15 * index}s;
-    `}
-
-    @keyframes fadeIn {
-        100% {
-            opacity: 1
-        }
-    }
-
-    &:hover {
-        transition: ease 1.4s;
-        background-color: #fff;
-
-        img {
-            transform: scale(1.1);
-        }
-    }
-`;
-
-const ItemName = styled.div`
-    font-size: 0.64rem;
-    text-align: center;
-    width: 150px;
-    height: calc(0.44rem * 3);
-    line-height: 0.44rem;
-`;
-
-const ItemImage = styled.img`
-    box-sizing: border-box;
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    transition: .3s;
-    box-shadow: 6px 6px 10px 0px rgba(0, 0, 0, 0.5);
-    padding: 5px;
-    background-color: white;
 `;
 
 type Movie = {
@@ -490,7 +353,9 @@ function Home(){
                                 <MovieCardList>
                                     {
                                         popularPart.map((movie, index) => (
-                                            <MovieCard key={index} bg={makeImagePath(movie.backdrop_path)} />
+                                            <Link to={`movies/${movie.id}`} key={index}>
+                                                        <MovieCard bg={makeImagePath(movie.backdrop_path)} />
+                                                    </Link>
                                         ))
                                     }
                                 </MovieCardList>
@@ -551,7 +416,9 @@ function Home(){
                                         <MovieCardList>
                                             {
                                                 comingPart.map((movie, index) => (
-                                                    <MovieCard key={index} bg={makeImagePath(movie.backdrop_path)} />
+                                                    <Link to={`movies/${movie.id}`} key={index}>
+                                                        <MovieCard bg={makeImagePath(movie.backdrop_path)} />
+                                                    </Link>
                                                 ))
                                             }
                                         </MovieCardList>
@@ -646,20 +513,13 @@ function Home(){
                             ) : ''
                         }
                     </MoviesContainer>
-                    {
-                        moviePathMatch ? (
-                            <MovieModalContainer>
-                                <MovieDialog>
-                                    <MoviePoster></MoviePoster>
-                                    <MovieDetail>
-                                        123
-                                    </MovieDetail>
-                                </MovieDialog>
-                            </MovieModalContainer>
-                        ) : ''
-                    }
                 </Container>
             ) : <Loading />
+        }
+        {
+            moviePathMatch ? (
+                <MovieModal />
+            ) : ''
         }
     </>
 }
